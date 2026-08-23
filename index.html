@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#4361ee">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%E6%95%B8%E5%AD%B8%E9%8C%AF%E9%A1%8C%E6%9C%AC%22%2C%22short_name%22%3A%22%E9%8C%AF%E9%A1%8C%E6%9C%AC%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f5f7fa%22%2C%22theme_color%22%3A%22%234361ee%22%7D">
+<title>📐 數學錯題本</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    startup: { pageReady: () => MathJax.startup.defaultPageReady().then(() => { initApp(); }) }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+  :root {
+    --primary:#4361ee;--primary-light:#e8ecff;--success:#2ec4b6;--success-light:#e6faf8;
+    --warning:#ff9f1c;--warning-light:#fff5e6;--danger:#e63946;--danger-light:#fdeaec;
+    --purple:#7209b7;--purple-light:#f3e8ff;
+    --gray-50:#f8f9fa;--gray-100:#f1f3f5;--gray-200:#e9ecef;--gray-300:#dee2e6;
+    --gray-500:#adb5bd;--gray-600:#868e96;--gray-700:#495057;--gray-800:#343a40;--gray-900:#212529;
+    --radius:12px;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 30px rgba(0,0,0,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI','Microsoft JhengHei','PingFang TC',sans-serif;background:linear-gradient(135deg,#f5f7fa,#c3cfe2);min-height:100vh;color:var(--gray-800);line-height:1.7;-webkit-tap-highlight-color:transparent;}
+  .container{max-width:920px;margin:0 auto;padding:14px;}
+
+  /* Header */
+  .header{background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;padding:30px 24px;border-radius:var(--radius);margin-bottom:14px;box-shadow:var(--shadow-lg);text-align:center;}
+  .header h1{font-size:1.8em;margin-bottom:4px;}
+  .header .subtitle{opacity:.85;font-size:.95em;}
+  .header .stats-row{display:flex;justify-content:center;gap:10px;margin-top:12px;flex-wrap:wrap;font-size:.82em;}
+  .header .stat-chip{background:rgba(255,255,255,.15);padding:3px 12px;border-radius:20px;}
+  .header .stat-chip b{font-size:1.15em;}
+
+  /* Filter */
+  .filter-bar{position:sticky;top:0;z-index:100;background:#fff;padding:10px 14px;border-radius:var(--radius);box-shadow:var(--shadow-lg);margin-bottom:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .filter-bar .search-box{flex:1;min-width:140px;padding:8px 12px 8px 34px;border:2px solid var(--gray-200);border-radius:8px;font-size:.9em;outline:none;transition:border-color .2s;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23adb5bd' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 110-10 5 5 0 010 10z'/%3E%3C/svg%3E") 10px center no-repeat;}
+  .filter-bar .search-box:focus{border-color:var(--primary);}
+  .filter-bar select{padding:8px 6px;border:2px solid var(--gray-200);border-radius:8px;font-size:.8em;background:#fff;cursor:pointer;max-width:120px;}
+  .filter-bar select:focus{border-color:var(--primary);outline:none;}
+  .filter-stats{font-size:.8em;color:var(--gray-500);white-space:nowrap;}
+  .reset-btn{background:none;border:1px solid var(--gray-300);border-radius:6px;padding:6px 12px;font-size:.8em;cursor:pointer;color:var(--gray-600);}
+
+  /* Daily Challenge */
+  .daily-section{background:linear-gradient(135deg,#ff6b6b,#ffa502);border-radius:var(--radius);box-shadow:var(--shadow-lg);margin-bottom:14px;overflow:hidden;color:#fff;}
+  .daily-header{padding:18px 22px 12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .daily-header h2{font-size:1.2em;}
+  .daily-timer{font-size:.82em;background:rgba(0,0,0,.15);padding:4px 12px;border-radius:20px;}
+  .daily-body{padding:0 22px 20px;}
+  .daily-card{background:rgba(255,255,255,.95);color:var(--gray-800);border-radius:10px;padding:16px 18px;margin-bottom:12px;position:relative;}
+  .daily-card .dc-label{font-size:.75em;font-weight:700;color:var(--danger);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .daily-card .dc-concepts{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;}
+  .daily-card .dc-tag{font-size:.7em;background:var(--purple-light);color:var(--purple);padding:2px 8px;border-radius:12px;font-weight:600;}
+  .dc-answer-area{margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-200);display:none;}
+  .dc-answer-area.show{display:block;}
+  .dc-answer-box{background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:12px;text-align:center;margin-bottom:10px;}
+  .dc-answer-box .value{font-size:1.3em;font-weight:700;}
+  .dc-reveal{background:var(--danger);color:#fff;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.85em;font-weight:600;margin-top:8px;transition:transform .1s;}
+  .dc-reveal:active{transform:scale(.96);}
+  .dc-done{position:absolute;top:12px;right:14px;font-size:1.4em;display:none;}
+  .dc-done.show{display:block;}
+  .daily-streak{text-align:center;padding:8px;font-size:.85em;opacity:.9;}
+
+  /* Self-Test */
+  .self-test-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:12px 20px;border-radius:var(--radius);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .self-test-banner p{font-size:.85em;margin-top:2px;}
+  .test-btn{background:#fff;color:#667eea;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.88em;font-weight:700;}
+
+  .no-results{text-align:center;padding:50px 20px;color:var(--gray-500);font-size:1em;display:none;}
+  .no-results.show{display:block;}
+  .no-results .emoji{font-size:2.5em;margin-bottom:10px;}
+
+  /* Question Card */
+  .question-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;}
+  .question-card.hidden{display:none;}
+  .question-header{padding:18px 20px 14px;border-bottom:1px solid var(--gray-200);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;}
+  .question-header h2{font-size:1.15em;}
+  .tags{display:flex;gap:5px;flex-wrap:wrap;}
+  .tag{font-size:.7em;padding:2px 9px;border-radius:20px;font-weight:600;}
+  .tag-scope{background:var(--primary-light);color:var(--primary);}
+  .tag-type{background:var(--success-light);color:var(--success);}
+  .tag-diff{background:var(--warning-light);color:var(--warning);}
+  .tag-diff.hard{background:var(--danger-light);color:var(--danger);}
+  .tag-source{background:var(--gray-100);color:var(--gray-700);}
+  .tag-concept{background:var(--purple-light);color:var(--purple);}
+  .question-body{padding:18px 20px;}
+  .problem-box{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:1em;}
+  .problem-box .label{font-size:.73em;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .answer-box{background:linear-gradient(135deg,var(--success-light),#d4f5f0);border:2px solid var(--success);border-radius:8px;padding:12px 16px;margin-bottom:14px;text-align:center;}
+  .answer-box .label{font-size:.73em;font-weight:700;color:var(--success);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+  .answer-box .value{font-size:1.3em;font-weight:700;}
+
+  /* Mastery */
+  .mastery-inline{display:flex;align-items:center;gap:5px;margin-bottom:14px;padding:8px 12px;background:var(--gray-50);border-radius:8px;font-size:.85em;flex-wrap:wrap;}
+  .mastery-inline .label{color:var(--gray-600);font-weight:600;margin-right:2px;}
+  .star-btn{background:none;border:none;font-size:1.3em;cursor:pointer;opacity:.3;transition:opacity .15s;padding:0 2px;}
+  .star-btn.active{opacity:1;}
+  .mastery-inline .review-info{margin-left:auto;font-size:.8em;color:var(--gray-500);}
+  .review-inc-btn{background:var(--primary);color:#fff;border:none;border-radius:4px;padding:2px 10px;font-size:.78em;cursor:pointer;margin-left:4px;}
+
+  /* Collapsible */
+  .collapsible{border:1px solid var(--gray-200);border-radius:8px;margin-bottom:10px;overflow:hidden;}
+  .collapsible-header{background:var(--gray-50);padding:11px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--gray-800);user-select:none;font-size:.95em;}
+  .collapsible-header:hover{background:var(--gray-100);}
+  .collapsible-header .icon{transition:transform .3s;font-size:.8em;color:var(--gray-500);}
+  .collapsible-header.active .icon{transform:rotate(180deg);}
+  .collapsible-content{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+  .collapsible-content.open{max-height:5000px;}
+  .collapsible-inner{padding:16px;}
+
+  /* Steps */
+  .step{position:relative;padding-left:34px;margin-bottom:16px;}
+  .step::before{content:attr(data-step);position:absolute;left:0;top:2px;width:24px;height:24px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7em;font-weight:700;}
+  .step-title{font-weight:700;color:var(--gray-800);margin-bottom:4px;font-size:.95em;}
+  .step-content{color:var(--gray-700);font-size:.93em;}
+  .math-line{background:var(--gray-50);padding:8px 14px;border-radius:6px;margin:6px 0;border-left:3px solid var(--primary);overflow-x:auto;}
+
+  /* Boxes */
+  .formula-box{background:linear-gradient(135deg,#fff3e0,#fff8e1);border:2px solid var(--warning);border-radius:8px;padding:14px 16px;margin:12px 0;}
+  .formula-box .title{font-weight:700;color:var(--warning);margin-bottom:5px;}
+  .formula-box.blue{background:linear-gradient(135deg,#e8ecff,#f0f2ff);border-color:var(--primary);}
+  .formula-box.blue .title{color:var(--primary);}
+  .warning-box{background:var(--danger-light);border-left:4px solid var(--danger);border-radius:0 8px 8px 0;padding:10px 14px;margin:8px 0;font-size:.9em;}
+  .warning-box .title{font-weight:700;color:var(--danger);margin-bottom:2px;}
+  .tip-box{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 8px 8px 0;padding:10px 14px;margin:8px 0;font-size:.9em;}
+  .tip-box .title{font-weight:700;color:var(--success);margin-bottom:2px;}
+
+  .error-table{width:100%;border-collapse:collapse;font-size:.87em;}
+  .error-table th{background:var(--danger-light);color:var(--danger);padding:8px 10px;text-align:left;font-weight:700;}
+  .error-table td{padding:8px 10px;border-bottom:1px solid var(--gray-200);}
+
+  .practice-card{background:var(--gray-50);border:1px dashed var(--gray-300);border-radius:8px;padding:14px 16px;margin-bottom:10px;}
+  .practice-card .practice-label{font-size:.75em;font-weight:700;color:var(--primary);margin-bottom:5px;}
+  .reveal-btn{background:var(--primary);color:#fff;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:.85em;font-weight:600;margin-top:6px;}
+  .hidden-answer{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-300);}
+  .hidden-answer.show{display:block;}
+
+  /* Review / Formula sections */
+  .review-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:20px;}
+  .review-section h2{font-size:1.15em;margin-bottom:14px;}
+  .review-section h3{margin:16px 0 8px;}
+  .timeline{position:relative;padding-left:28px;}
+  .timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:3px;background:var(--gray-200);border-radius:2px;}
+  .timeline-item{position:relative;margin-bottom:16px;padding-left:18px;}
+  .timeline-item::before{content:'';position:absolute;left:-22px;top:5px;width:11px;height:11px;border-radius:50%;background:#fff;border:3px solid var(--primary);}
+  .timeline-date{font-size:.82em;color:var(--primary);font-weight:700;}
+  .timeline-desc{font-size:.9em;color:var(--gray-700);margin-top:1px;}
+
+  .formula-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .formula-item{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:10px;text-align:center;font-size:.9em;}
+  .formula-item .f-label{font-size:.72em;color:var(--gray-500);font-weight:700;margin-bottom:4px;}
+
+  .angle-table{width:100%;border-collapse:collapse;font-size:.85em;text-align:center;}
+  .angle-table th{background:var(--primary);color:#fff;padding:8px;}
+  .angle-table td{padding:8px;border-bottom:1px solid var(--gray-200);}
+  .angle-table tr:nth-child(even){background:var(--gray-50);}
+
+  /* Deploy Guide */
+  .deploy-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:20px;}
+  .deploy-section h2{font-size:1.15em;margin-bottom:14px;}
+  .deploy-option{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:14px 16px;margin-bottom:10px;}
+  .deploy-option .opt-title{font-weight:700;color:var(--primary);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+  .deploy-option .opt-title .badge{font-size:.7em;background:var(--success);color:#fff;padding:2px 8px;border-radius:10px;}
+  .deploy-option code{background:var(--gray-200);padding:2px 6px;border-radius:4px;font-size:.85em;}
+  .deploy-option ol{padding-left:18px;margin-top:6px;font-size:.9em;color:var(--gray-700);}
+  .deploy-option li{margin-bottom:4px;}
+
+  /* How to add */
+  .how-to-add{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:20px;}
+  .how-to-add h2{font-size:1.15em;margin-bottom:12px;}
+  .how-to-add code{background:var(--gray-100);padding:2px 6px;border-radius:4px;font-size:.85em;color:var(--danger);}
+  .how-to-add pre{background:var(--gray-900);color:#e0e0e0;padding:14px;border-radius:8px;overflow-x:auto;font-size:.75em;line-height:1.5;margin:10px 0;}
+
+  /* Responsive */
+  @media(max-width:640px){
+    .container{padding:8px;}
+    .header{padding:20px 14px;}
+    .header h1{font-size:1.4em;}
+    .filter-bar{padding:8px 10px;gap:6px;}
+    .filter-bar select{max-width:100px;font-size:.75em;padding:7px 4px;}
+    .formula-grid{grid-template-columns:1fr;}
+    .question-header,.question-body{padding:14px 16px;}
+    .daily-header{padding:14px 16px 10px;}
+    .daily-body{padding:0 16px 16px;}
+  }
+  @media print{
+    body{background:#fff;}
+    .filter-bar,.self-test-banner,.daily-section,.deploy-section,.how-to-add{display:none;}
+    .collapsible-content{max-height:none!important;}
+    .hidden-answer{display:block!important;}
+    .reveal-btn,.dc-reveal{display:none;}
+    .question-card,.review-section{box-shadow:none;border:1px solid var(--gray-300);page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <h1>📐 數學錯題本</h1>
+  <div class="subtitle">系統化收錄 · 搜尋篩選 · 每日挑戰</div>
+  <div class="stats-row">
+    <span class="stat-chip">📝 共 <b id="totalCount">0</b> 題</span>
+    <span class="stat-chip">📂 <b id="scopeCount">0</b> 個範圍</span>
+    <span class="stat-chip">🔥 連續 <b id="streakCount">0</b> 天</span>
+    <span class="stat-chip">⭐ 掌握 <b id="avgMastery">—</b></span>
+  </div>
+</div>
+
+<!-- ==================== DAILY CHALLENGE ==================== -->
+<div class="daily-section">
+  <div class="daily-header">
+    <h2>🔥 今日挑戰</h2>
+    <span class="daily-timer" id="dailyTimer">⏳ 載入中…</span>
+  </div>
+  <div class="daily-body" id="dailyBody">
+    <!-- Rendered by JS -->
+  </div>
+  <div class="daily-streak" id="dailyStreak"></div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <input type="text" class="search-box" id="searchInput" placeholder="搜尋題目、概念…">
+  <select id="filterScope"><option value="">全部範圍</option></select>
+  <select id="filterType"><option value="">全部題型</option></select>
+  <select id="filterDiff"><option value="">全部難度</option></select>
+  <select id="filterMastery">
+    <option value="">全部掌握度</option>
+    <option value="0">☆ 未評估</option>
+    <option value="1">⭐1</option><option value="2">⭐2</option>
+    <option value="3">⭐3</option><option value="4">⭐4</option><option value="5">⭐5</option>
+  </select>
+  <span class="filter-stats" id="filterStats"></span>
+  <button class="reset-btn" onclick="resetFilters()">重置</button>
+</div>
+
+<!-- SELF-TEST -->
+<div class="self-test-banner">
+  <div><strong>🧠 自我測試模式</strong><p>一鍵隱藏答案，獨立解題！</p></div>
+  <button class="test-btn" id="testBtn" onclick="toggleTestMode()">開始測試</button>
+</div>
+
+<div class="no-results" id="noResults"><div class="emoji">🔍</div>沒有符合條件的題目</div>
+
+<!-- ==================== QUESTIONS ==================== -->
+<div id="questionsContainer">
+
+<!-- Q6 -->
+<div class="question-card" data-scope="三角函數" data-chapter="距離公式與單位圓" data-type="座標平面兩點距離" data-difficulty="中等" data-source="中女中、嘉中、延平、陽明高中" data-concepts="兩點距離公式,餘弦差角公式,單位圓" data-id="6" data-date="2026-08-22">
+  <div class="question-header">
+    <h2>📝 第6題 — 單位圓兩點距離</h2>
+    <div class="tags"><span class="tag tag-scope">三角函數</span><span class="tag tag-type">距離公式</span><span class="tag tag-diff">中等</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>設 $A(\cos75°,\sin75°)$，點 $B(\cos15°,\sin15°)$，求 $A$、$B$ 兩點之距離。
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：中女中、嘉中、延平、陽明高中 ｜ <span class="tag tag-concept" style="font-size:.95em">兩點距離公式</span> <span class="tag tag-concept" style="font-size:.95em">餘弦差角公式</span> <span class="tag tag-concept" style="font-size:.95em">單位圓</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="6"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('6',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('6',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('6',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('6',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('6',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('6')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">$AB = 1$</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 觀察</div>$A$、$B$ 都在<strong>單位圓</strong>上（$\cos^2\theta+\sin^2\theta=1$）。</div>
+      <div class="step" data-step="1"><div class="step-title">列式 — 兩點距離公式</div><div class="math-line">$$AB=\sqrt{(\cos75°-\cos15°)^2+(\sin75°-\sin15°)^2}$$</div></div>
+      <div class="step" data-step="2"><div class="step-title">展開並利用 $\sin^2\theta+\cos^2\theta=1$</div><div class="math-line">$$=\sqrt{1+1-2(\cos75°\cos15°+\sin75°\sin15°)}$$</div></div>
+      <div class="step" data-step="3"><div class="step-title">套用餘弦差角公式</div><div class="math-line">$$=\sqrt{2-2\cos(75°-15°)}=\sqrt{2-2\cos60°}$$</div></div>
+      <div class="step" data-step="4"><div class="step-title">代入 $\cos60°=\frac{1}{2}$</div><div class="math-line">$$=\sqrt{2-1}=\boxed{1}$$</div></div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ 單位圓兩點距離</div>$$PQ=\sqrt{2-2\cos(\theta_1-\theta_2)}$$</div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>忘記差角公式</td><td>硬算 $\cos75°-\cos15°$</td></tr><tr><td>2</td><td>符號錯誤</td><td>$(a-b)^2$ 展開時搞混</td></tr><tr><td>3</td><td>角值記錯</td><td>$\cos60°=\frac{1}{2}$ 非 $\frac{\sqrt3}{2}$</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 6-1</div>設 $P(\cos120°,\sin120°)$，$Q(\cos30°,\sin30°)$，求距離。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$\sqrt{2}$</div></div>$$PQ=\sqrt{2-2\cos90°}=\sqrt{2}$$</div></div>
+      <div class="practice-card"><div class="practice-label">練習 6-2</div>設 $M(\cos150°,\sin150°)$，$N(\cos30°,\sin30°)$，求距離。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$\sqrt{3}$</div></div>$$MN=\sqrt{2-2\cos120°}=\sqrt{2+1}=\sqrt{3}$$</div></div>
+    </div></div></div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="question-card" data-scope="三角函數" data-chapter="三角恆等式與條件求值" data-type="三角恆等式條件求值(平方相加法)" data-difficulty="中等偏難" data-source="竹女、鳳中、南一中模考" data-concepts="平方和技巧,餘弦差角公式,恆等式化簡" data-id="7" data-date="2026-08-22">
+  <div class="question-header">
+    <h2>📝 第7題 — 平方相加法</h2>
+    <div class="tags"><span class="tag tag-scope">三角函數</span><span class="tag tag-type">平方相加法</span><span class="tag tag-diff hard">中等偏難</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>已知 $\sin\alpha+2\sin\beta=2$，$\cos\alpha+2\cos\beta=2$，則 $\cos(\alpha-\beta)=\;?$
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：竹女、鳳中、南一中模考 ｜ <span class="tag tag-concept" style="font-size:.95em">平方和技巧</span> <span class="tag tag-concept" style="font-size:.95em">餘弦差角公式</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="7"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('7',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('7',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('7',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('7',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('7',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('7')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">$\cos(\alpha-\beta)=\dfrac{3}{4}$</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 關鍵</div>看到 $\sin$ 搭配 $\cos$ → <strong>平方相加</strong>！</div>
+      <div class="math-line">$$①\;\sin\alpha+2\sin\beta=2 \quad ②\;\cos\alpha+2\cos\beta=2$$</div>
+      <div class="step" data-step="1"><div class="step-title">分別平方</div><div class="math-line">$$①^2:\sin^2\alpha+4\sin\alpha\sin\beta+4\sin^2\beta=4$$</div><div class="warning-box"><div class="title">⚠️ 易錯！</div>交叉項 $=2\times1\times2=\mathbf{4}$，非 $2$！</div><div class="math-line">$$②^2:\cos^2\alpha+4\cos\alpha\cos\beta+4\cos^2\beta=4$$</div></div>
+      <div class="step" data-step="2"><div class="step-title">相加 + 化簡</div><div class="math-line">$$1+4\cos(\alpha-\beta)+4=8 \implies 5+4\cos(\alpha-\beta)=8$$</div></div>
+      <div class="step" data-step="3"><div class="step-title">解方程</div><div class="math-line">$$\cos(\alpha-\beta)=\boxed{\frac{3}{4}}$$</div></div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ 平方相加通用公式</div>若 $\sin\alpha+k\sin\beta=m$，$\cos\alpha+k\cos\beta=n$：$$\cos(\alpha-\beta)=\frac{m^2+n^2-1-k^2}{2k}$$</div>
+      <div class="formula-box blue"><div class="title">📐 廣義版 ($a\neq1$)</div>若 $a\sin\alpha+b\sin\beta=m$，$a\cos\alpha+b\cos\beta=n$：$$\cos(\alpha-\beta)=\frac{m^2+n^2-a^2-b^2}{2ab}$$</div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>交叉項係數</td><td>$(a+2b)^2$ 交叉項為 $4ab$</td></tr><tr><td>2</td><td>漏常數項</td><td>忘記 $\sin^2+\cos^2=1$</td></tr><tr><td>3</td><td>公式混淆</td><td>$\cos(A-B)$ vs $\cos(A+B)$</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 7-1</div>已知 $\sin\alpha+2\sin\beta=1$，$\cos\alpha+2\cos\beta=\sqrt{2}$，求 $\cos(\alpha-\beta)$。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$-\dfrac{1}{2}$</div></div>$$\cos(\alpha-\beta)=\frac{1+2-1-4}{4}=-\frac{1}{2}$$</div></div>
+      <div class="practice-card"><div class="practice-label">練習 7-2（廣義）</div>已知 $3\sin\alpha+2\sin\beta=4$，$3\cos\alpha+2\cos\beta=2$，求 $\cos(\alpha-\beta)$。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$\dfrac{7}{12}$</div></div>$$9+12\cos(\alpha-\beta)+4=20\implies\cos(\alpha-\beta)=\frac{7}{12}$$</div></div>
+    </div></div></div>
+  </div>
+</div>
+
+</div><!-- /questionsContainer -->
+
+<!-- REVIEW PLAN -->
+<div class="review-section">
+  <h2>🔄 間隔複習計畫</h2>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-date">第1次 — 隔天</div><div class="timeline-desc">完整重做，核對步驟</div></div>
+    <div class="timeline-item"><div class="timeline-date">第2次 — 第3天</div><div class="timeline-desc">默寫公式，獨立解題</div></div>
+    <div class="timeline-item"><div class="timeline-date">第3次 — 第7天</div><div class="timeline-desc">做類似題，驗證舉一反三</div></div>
+    <div class="timeline-item"><div class="timeline-date">第4次 — 第14天</div><div class="timeline-desc">混合限時作答</div></div>
+    <div class="timeline-item"><div class="timeline-date">第5次 — 第30天</div><div class="timeline-desc">總複習，確認完全掌握</div></div>
+  </div>
+</div>
+
+<!-- FORMULA -->
+<div class="review-section">
+  <h2>📋 公式速查表</h2>
+  <div class="formula-grid">
+    <div class="formula-item"><div class="f-label">基本恆等式</div>$\sin^2\theta+\cos^2\theta=1$</div>
+    <div class="formula-item"><div class="f-label">餘弦差角</div>$\cos(A\!-\!B)=\cos A\cos B+\sin A\sin B$</div>
+    <div class="formula-item"><div class="f-label">單位圓距離</div>$d=\sqrt{2-2\cos(\theta_1-\theta_2)}$</div>
+    <div class="formula-item"><div class="f-label">平方相加</div>$\cos(\alpha\!-\!\beta)=\frac{m^2+n^2-1-k^2}{2k}$</div>
+  </div>
+  <h3>📐 特殊角</h3>
+  <table class="angle-table">
+    <tr><th>角度</th><th>$\sin$</th><th>$\cos$</th><th>$\tan$</th></tr>
+    <tr><td>$30°$</td><td>$\frac{1}{2}$</td><td>$\frac{\sqrt3}{2}$</td><td>$\frac{\sqrt3}{3}$</td></tr>
+    <tr><td>$45°$</td><td>$\frac{\sqrt2}{2}$</td><td>$\frac{\sqrt2}{2}$</td><td>$1$</td></tr>
+    <tr><td>$60°$</td><td>$\frac{\sqrt3}{2}$</td><td>$\frac{1}{2}$</td><td>$\sqrt3$</td></tr>
+    <tr><td>$90°$</td><td>$1$</td><td>$0$</td><td>—</td></tr>
+    <tr><td>$120°$</td><td>$\frac{\sqrt3}{2}$</td><td>$-\frac{1}{2}$</td><td>$-\sqrt3$</td></tr>
+  </table>
+</div>
+
+<!-- DEPLOY GUIDE -->
+<div class="deploy-section">
+  <h2>📱 手機存取方式</h2>
+  <p style="font-size:.9em;color:var(--gray-700);margin-bottom:12px;">以下方法讓你在學校用手機也能開啟錯題本：</p>
+  <div class="deploy-option">
+    <div class="opt-title">📂 方法一：OneDrive 同步 <span class="badge">最簡單</span></div>
+    <ol>
+      <li>將 <code>D:\數學錯題本\</code> 資料夾搬到 OneDrive 目錄中</li>
+      <li>手機安裝 OneDrive App，登入同一帳號</li>
+      <li>開啟 HTML 檔案 → 選擇「在瀏覽器中開啟」</li>
+      <li>可加到手機主畫面方便存取</li>
+    </ol>
+  </div>
+  <div class="deploy-option">
+    <div class="opt-title">🌐 方法二：GitHub Pages 免費架站 <span class="badge">推薦</span></div>
+    <ol>
+      <li>註冊 GitHub 帳號，建立新 Repository</li>
+      <li>上傳 HTML 檔案（改名為 <code>index.html</code>）</li>
+      <li>Settings → Pages → Source 選 main branch</li>
+      <li>取得網址 <code>https://你的帳號.github.io/倉庫名/</code></li>
+      <li>手機瀏覽器開啟即可，隨時隨地複習！</li>
+    </ol>
+  </div>
+  <div class="deploy-option">
+    <div class="opt-title">⚡ 方法三：Netlify 拖曳部署</div>
+    <ol>
+      <li>進入 <code>app.netlify.com/drop</code></li>
+      <li>直接拖曳 HTML 檔案到頁面上</li>
+      <li>自動取得免費網址，手機開啟即可</li>
+    </ol>
+  </div>
+</div>
+
+<!-- HOW TO ADD -->
+<div class="how-to-add">
+  <h2>➕ 如何新增題目</h2>
+  <p style="font-size:.9em">複製下方模板，貼到 <code>questionsContainer</code> 內，修改 <code>data-</code> 屬性和內容即可。篩選選單自動更新！</p>
+  <pre>&lt;div class="question-card"
+     data-scope="範圍" data-chapter="章節"
+     data-type="題型" data-difficulty="難度"
+     data-source="來源" data-concepts="概念1,概念2"
+     data-id="編號" data-date="2026-08-23"&gt;
+  &lt;div class="question-header"&gt;
+    &lt;h2&gt;📝 第X題 — 標題&lt;/h2&gt;
+    &lt;div class="tags"&gt;
+      &lt;span class="tag tag-scope"&gt;範圍&lt;/span&gt;
+      &lt;span class="tag tag-type"&gt;題型&lt;/span&gt;
+      &lt;span class="tag tag-diff"&gt;難度&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="question-body"&gt;
+    &lt;div class="problem-box"&gt;
+      &lt;div class="label"&gt;📋 題目&lt;/div&gt;
+      填入題目（支援 $LaTeX$）
+    &lt;/div&gt;
+    &lt;div class="answer-box hideable"&gt;
+      &lt;div class="label"&gt;✅ 答案&lt;/div&gt;
+      &lt;div class="value"&gt;$答案$&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- 加入 collapsible 解析區塊 --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+</div>
+
+<div style="text-align:center;padding:16px;color:var(--gray-500);font-size:.78em;">
+  📐 數學錯題本 · 每日挑戰 · 手機友善版 · 2026
+</div>
+</div>
+
+<!-- ============================================================ -->
+<script>
+const SK = 'mathErrorBook';
+
+// ===== DAILY CHALLENGE PROBLEM BANK (14 problems) =====
+const dailyBank = [
+  { id:'d1', problem:'已知 $\\tan\\alpha+\\tan\\beta=3$，$\\tan\\alpha\\cdot\\tan\\beta=2$，求 $\\tan(\\alpha+\\beta)$。',
+    answer:'$-3$',
+    solution:'利用和角公式：$$\\tan(\\alpha+\\beta)=\\frac{\\tan\\alpha+\\tan\\beta}{1-\\tan\\alpha\\cdot\\tan\\beta}=\\frac{3}{1-2}=\\frac{3}{-1}=-3$$',
+    concepts:['和角公式','正切'] },
+  { id:'d2', problem:'若 $\\sin(\\alpha+\\beta)=\\dfrac{3}{5}$，$\\sin(\\alpha-\\beta)=\\dfrac{1}{5}$，求 $\\dfrac{\\tan\\alpha}{\\tan\\beta}$。',
+    answer:'$2$',
+    solution:'和差化積：$$\\sin(\\alpha+\\beta)+\\sin(\\alpha-\\beta)=2\\sin\\alpha\\cos\\beta=\\frac{4}{5}$$$$\\sin(\\alpha+\\beta)-\\sin(\\alpha-\\beta)=2\\cos\\alpha\\sin\\beta=\\frac{2}{5}$$$$\\frac{\\tan\\alpha}{\\tan\\beta}=\\frac{\\sin\\alpha\\cos\\beta}{\\cos\\alpha\\sin\\beta}=\\frac{4/5}{2/5}=2$$',
+    concepts:['和差化積','正切比'] },
+  { id:'d3', problem:'已知 $\\sin\\alpha-\\cos\\alpha=\\sqrt{2}$，求 $\\sin^3\\alpha-\\cos^3\\alpha$。',
+    answer:'$\\dfrac{\\sqrt{2}}{2}$',
+    solution:'平方得 $1-2\\sin\\alpha\\cos\\alpha=2$，故 $\\sin\\alpha\\cos\\alpha=-\\frac{1}{2}$。$$\\sin^3\\alpha-\\cos^3\\alpha=(\\sin\\alpha-\\cos\\alpha)(\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha+\\cos^2\\alpha)$$$$=\\sqrt{2}\\times\\left(1+\\left(-\\frac{1}{2}\\right)\\right)=\\sqrt{2}\\times\\frac{1}{2}=\\frac{\\sqrt{2}}{2}$$',
+    concepts:['因式分解','恆等式'] },
+  { id:'d4', problem:'求 $\\cos20°\\cdot\\cos40°\\cdot\\cos80°$ 的值。',
+    answer:'$\\dfrac{1}{8}$',
+    solution:'利用恆等式 $\\cos\\theta\\cdot\\cos(60°-\\theta)\\cdot\\cos(60°+\\theta)=\\frac{1}{4}\\cos3\\theta$。$$\\cos20°\\cdot\\cos40°\\cdot\\cos80°=\\cos20°\\cdot\\cos(60°-20°)\\cdot\\cos(60°+20°)$$$$=\\frac{1}{4}\\cos60°=\\frac{1}{4}\\times\\frac{1}{2}=\\frac{1}{8}$$',
+    concepts:['積化和差','三倍角'] },
+  { id:'d5', problem:'已知 $\\sin\\alpha+\\cos\\alpha=\\sqrt{2}$，求 $\\sin^4\\alpha+\\cos^4\\alpha$。',
+    answer:'$\\dfrac{1}{2}$',
+    solution:'平方得 $1+2\\sin\\alpha\\cos\\alpha=2$，$\\sin\\alpha\\cos\\alpha=\\frac{1}{2}$。$$\\sin^4\\alpha+\\cos^4\\alpha=(\\sin^2\\alpha+\\cos^2\\alpha)^2-2\\sin^2\\alpha\\cos^2\\alpha$$$$=1-2\\times\\frac{1}{4}=1-\\frac{1}{2}=\\frac{1}{2}$$',
+    concepts:['恆等式變形','配方'] },
+  { id:'d6', problem:'已知 $\\tan\\alpha=2$，求 $\\dfrac{\\sin\\alpha+\\cos\\alpha}{\\sin\\alpha-\\cos\\alpha}$ 的值。',
+    answer:'$3$',
+    solution:'分子分母同除以 $\\cos\\alpha$：$$\\frac{\\sin\\alpha+\\cos\\alpha}{\\sin\\alpha-\\cos\\alpha}=\\frac{\\tan\\alpha+1}{\\tan\\alpha-1}=\\frac{2+1}{2-1}=3$$',
+    concepts:['齊次化','正切代換'] },
+  { id:'d7', problem:'化簡 $\\dfrac{1+\\sin2\\alpha+\\cos2\\alpha}{1+\\sin2\\alpha-\\cos2\\alpha}$。',
+    answer:'$\\dfrac{1}{\\tan\\alpha}$（即 $\\cot\\alpha$）',
+    solution:'利用 $1+\\cos2\\alpha=2\\cos^2\\alpha$，$1-\\cos2\\alpha=2\\sin^2\\alpha$，$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$：$$\\frac{2\\cos^2\\alpha+2\\sin\\alpha\\cos\\alpha}{2\\sin^2\\alpha+2\\sin\\alpha\\cos\\alpha}=\\frac{2\\cos\\alpha(\\cos\\alpha+\\sin\\alpha)}{2\\sin\\alpha(\\sin\\alpha+\\cos\\alpha)}=\\frac{\\cos\\alpha}{\\sin\\alpha}$$',
+    concepts:['二倍角','化簡'] },
+  { id:'d8', problem:'已知 $3\\sin\\alpha+4\\cos\\alpha=4$，求 $(3\\cos\\alpha-4\\sin\\alpha)^2$ 的值。',
+    answer:'$9$',
+    solution:'利用輔助角公式性質：$$(3\\sin\\alpha+4\\cos\\alpha)^2+(3\\cos\\alpha-4\\sin\\alpha)^2$$$$=9+16=25$$$$\\therefore (3\\cos\\alpha-4\\sin\\alpha)^2=25-16=9$$',
+    concepts:['平方和不變量','輔助角'] },
+  { id:'d9', problem:'$\\triangle ABC$ 中，$\\sin A:\\sin B:\\sin C=3:5:7$，求最大角的餘弦值。',
+    answer:'$-\\dfrac{1}{2}$',
+    solution:'由正弦定理 $a:b:c=3:5:7$，設 $a=3k,b=5k,c=7k$。$$\\cos C=\\frac{a^2+b^2-c^2}{2ab}=\\frac{9+25-49}{2\\times15}=\\frac{-15}{30}=-\\frac{1}{2}$$故 $C=120°$。',
+    concepts:['正弦定理','餘弦定理'] },
+  { id:'d10', problem:'$\\alpha$ 為銳角，$\\sin\\alpha=\\dfrac{3}{5}$，求 $\\sin(\\alpha+30°)$。',
+    answer:'$\\dfrac{3\\sqrt{3}+4}{10}$',
+    solution:'$\\alpha$ 銳角 → $\\cos\\alpha=\\frac{4}{5}$。$$\\sin(\\alpha+30°)=\\sin\\alpha\\cos30°+\\cos\\alpha\\sin30°$$$$=\\frac{3}{5}\\cdot\\frac{\\sqrt{3}}{2}+\\frac{4}{5}\\cdot\\frac{1}{2}=\\frac{3\\sqrt{3}+4}{10}$$',
+    concepts:['和角公式','銳角三角'] },
+  { id:'d11', problem:'已知 $\\cos\\!\\left(\\alpha-\\dfrac{\\pi}{4}\\right)=\\dfrac{3}{5}$，求 $\\sin2\\alpha$。',
+    answer:'$-\\dfrac{7}{25}$',
+    solution:'$$\\cos\\!\\left(\\alpha-\\frac{\\pi}{4}\\right)=\\frac{\\cos\\alpha+\\sin\\alpha}{\\sqrt{2}}=\\frac{3}{5}$$$$\\cos\\alpha+\\sin\\alpha=\\frac{3\\sqrt{2}}{5}$$平方：$1+\\sin2\\alpha=\\frac{18}{25}$$$\\sin2\\alpha=\\frac{18}{25}-1=-\\frac{7}{25}$$',
+    concepts:['差角公式','二倍角'] },
+  { id:'d12', problem:'已知 $\\cos2\\alpha=\\dfrac{1}{3}$，求 $\\sin^4\\alpha+\\cos^4\\alpha$。',
+    answer:'$\\dfrac{5}{9}$',
+    solution:'$$\\sin^4\\alpha+\\cos^4\\alpha=(\\sin^2\\alpha+\\cos^2\\alpha)^2-2\\sin^2\\alpha\\cos^2\\alpha$$$$=1-\\frac{\\sin^22\\alpha}{2}$$$$\\sin^22\\alpha=1-\\cos^22\\alpha=1-\\frac{1}{9}=\\frac{8}{9}$$$$=1-\\frac{8/9}{2}=1-\\frac{4}{9}=\\frac{5}{9}$$',
+    concepts:['二倍角','恆等式變形'] },
+  { id:'d13', problem:'求 $\\tan20°+\\tan40°+\\sqrt{3}\\,\\tan20°\\cdot\\tan40°$ 的值。',
+    answer:'$\\sqrt{3}$',
+    solution:'由 $20°+40°=60°$：$$\\tan60°=\\frac{\\tan20°+\\tan40°}{1-\\tan20°\\tan40°}=\\sqrt{3}$$$$\\tan20°+\\tan40°=\\sqrt{3}(1-\\tan20°\\tan40°)$$$$\\tan20°+\\tan40°+\\sqrt{3}\\,\\tan20°\\tan40°=\\sqrt{3}$$',
+    concepts:['和角公式逆用','正切'] },
+  { id:'d14', problem:'已知 $\\sin\\alpha+\\sin\\beta=\\dfrac{1}{2}$，$\\cos\\alpha+\\cos\\beta=\\dfrac{\\sqrt{3}}{2}$，求 $\\cos(\\alpha-\\beta)$。',
+    answer:'$-\\dfrac{1}{2}$',
+    solution:'兩式平方相加：$$\\sin^2\\alpha+2\\sin\\alpha\\sin\\beta+\\sin^2\\beta+\\cos^2\\alpha+2\\cos\\alpha\\cos\\beta+\\cos^2\\beta=\\frac{1}{4}+\\frac{3}{4}$$$$2+2\\cos(\\alpha-\\beta)=1$$$$\\cos(\\alpha-\\beta)=-\\frac{1}{2}$$',
+    concepts:['平方相加法','餘弦差角'] }
+];
+
+// ===== Utility =====
+function loadData(){ try{return JSON.parse(localStorage.getItem(SK))||{}}catch(e){return{}} }
+function saveData(d){ localStorage.setItem(SK,JSON.stringify(d)); }
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;} return Math.abs(h); }
+
+// ===== Daily Challenge =====
+function getDailyProblems(){
+  const h = hashStr(todayStr());
+  const i1 = h % dailyBank.length;
+  let i2 = (h + 7) % dailyBank.length;
+  if(i1===i2) i2=(i2+1)%dailyBank.length;
+  return [dailyBank[i1], dailyBank[i2]];
+}
+
+function renderDaily(){
+  const [p1,p2] = getDailyProblems();
+  const data = loadData();
+  const today = todayStr();
+  const done = data._dailyDone || {};
+  const html = [p1,p2].map((p,i) => {
+    const isDone = done[today] && done[today].includes(p.id);
+    return `<div class="daily-card">
+      <div class="dc-label">挑戰 ${i+1}</div>
+      <div class="dc-done ${isDone?'show':''}" id="dcDone_${p.id}">✅</div>
+      <div>${p.problem}</div>
+      <div class="dc-concepts">${p.concepts.map(c=>`<span class="dc-tag">${c}</span>`).join('')}</div>
+      <button class="dc-reveal" onclick="revealDaily('${p.id}',this)">顯示答案與解析</button>
+      <div class="dc-answer-area" id="dcAns_${p.id}">
+        <div class="dc-answer-box"><div style="font-size:.7em;color:var(--success);font-weight:700">答案</div><div class="value">${p.answer}</div></div>
+        <div style="font-size:.92em">${p.solution}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('dailyBody').innerHTML = html;
+
+  // Timer
+  const now = new Date();
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
+  const diff = tomorrow - now;
+  const hrs = Math.floor(diff/3600000);
+  const mins = Math.floor((diff%3600000)/60000);
+  document.getElementById('dailyTimer').textContent = `⏳ ${hrs}h ${mins}m 後刷新`;
+
+  // Streak
+  updateStreak();
+}
+
+function revealDaily(id, btn){
+  const area = document.getElementById('dcAns_'+id);
+  const isShow = area.classList.toggle('show');
+  btn.textContent = isShow ? '隱藏答案' : '顯示答案與解析';
+  if(isShow){
+    // Mark done
+    const data = loadData();
+    const today = todayStr();
+    if(!data._dailyDone) data._dailyDone = {};
+    if(!data._dailyDone[today]) data._dailyDone[today] = [];
+    if(!data._dailyDone[today].includes(id)) data._dailyDone[today].push(id);
+    saveData(data);
+    document.getElementById('dcDone_'+id).classList.add('show');
+    updateStreak();
+    if(window.MathJax) MathJax.typesetPromise([area]);
+  }
+}
+
+function updateStreak(){
+  const data = loadData();
+  const done = data._dailyDone || {};
+  let streak = 0;
+  const d = new Date();
+  // Check today first
+  const todayKey = todayStr();
+  if(done[todayKey] && done[todayKey].length >= 2) streak = 1;
+  else { document.getElementById('streakCount').textContent = streak; return; }
+  // Check backwards
+  for(let i=1;i<365;i++){
+    d.setDate(d.getDate()-1);
+    const key = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+    if(done[key] && done[key].length >= 2) streak++;
+    else break;
+  }
+  document.getElementById('streakCount').textContent = streak;
+  const streakEl = document.getElementById('dailyStreak');
+  if(streak >= 3) streakEl.textContent = `🔥 連續 ${streak} 天完成挑戰！太強了！`;
+  else if(streak >= 1) streakEl.textContent = `✨ 今日已完成！明天繼續保持！`;
+  else streakEl.textContent = '';
+}
+
+// ===== Mastery =====
+function setMastery(qid,level){
+  const d=loadData(); if(!d[qid])d[qid]={mastery:0,reviewCount:0};
+  d[qid].mastery=level; saveData(d); renderMastery(qid,level);
+  const card=document.querySelector(`.question-card[data-id="${qid}"]`);
+  if(card)card.dataset.mastery=level; updateStats();
+}
+function incReview(qid){
+  const d=loadData(); if(!d[qid])d[qid]={mastery:0,reviewCount:0};
+  d[qid].reviewCount++; d[qid].lastReview=todayStr(); saveData(d);
+  const t=document.querySelector(`.mastery-inline[data-qid="${qid}"]`);
+  if(t)t.querySelector('.review-count').textContent=d[qid].reviewCount;
+}
+function renderMastery(qid,level){
+  const t=document.querySelector(`.mastery-inline[data-qid="${qid}"]`);
+  if(!t)return; t.querySelectorAll('.star-btn').forEach(b=>{b.classList.toggle('active',parseInt(b.dataset.level)<=level);});
+}
+
+// ===== Filters =====
+function populateFilters(){
+  const cards=document.querySelectorAll('.question-card');
+  const sc=new Set(),ty=new Set(),df=new Set();
+  cards.forEach(c=>{sc.add(c.dataset.scope);ty.add(c.dataset.type);df.add(c.dataset.difficulty);});
+  fillSel('filterScope',sc,'全部範圍');fillSel('filterType',ty,'全部題型');fillSel('filterDiff',df,'全部難度');
+}
+function fillSel(id,vals,def){
+  const s=document.getElementById(id),cur=s.value;
+  s.innerHTML=`<option value="">${def}</option>`;
+  [...vals].sort().forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o);});
+  s.value=cur;
+}
+function applyFilters(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const sc=document.getElementById('filterScope').value;
+  const ty=document.getElementById('filterType').value;
+  const df=document.getElementById('filterDiff').value;
+  const ma=document.getElementById('filterMastery').value;
+  const cards=document.querySelectorAll('.question-card');
+  let vis=0;
+  cards.forEach(c=>{
+    let ok=true;
+    if(sc&&c.dataset.scope!==sc)ok=false;
+    if(ty&&c.dataset.type!==ty)ok=false;
+    if(df&&c.dataset.difficulty!==df)ok=false;
+    if(ma!==''&&(c.dataset.mastery||'0')!==ma)ok=false;
+    if(q){const t=c.textContent.toLowerCase();const cn=(c.dataset.concepts||'').toLowerCase();if(!t.includes(q)&&!cn.includes(q))ok=false;}
+    c.classList.toggle('hidden',!ok); if(ok)vis++;
+  });
+  document.getElementById('filterStats').textContent=`${vis}/${cards.length}`;
+  document.getElementById('noResults').classList.toggle('show',vis===0);
+}
+function resetFilters(){
+  document.getElementById('searchInput').value='';
+  ['filterScope','filterType','filterDiff','filterMastery'].forEach(id=>document.getElementById(id).value='');
+  applyFilters();
+}
+function updateStats(){
+  const cards=document.querySelectorAll('.question-card');
+  const sc=new Set(),ty=new Set(); let tm=0,r=0;
+  cards.forEach(c=>{sc.add(c.dataset.scope);ty.add(c.dataset.type);const m=parseInt(c.dataset.mastery||0);if(m>0){tm+=m;r++;}});
+  document.getElementById('totalCount').textContent=cards.length;
+  document.getElementById('scopeCount').textContent=sc.size;
+  document.getElementById('avgMastery').textContent=r>0?(tm/r).toFixed(1):'—';
+}
+
+// ===== UI =====
+function toggleC(h){h.classList.toggle('active');h.nextElementSibling.classList.toggle('open');}
+function toggleA(b){const a=b.nextElementSibling;a.classList.toggle('show');b.textContent=a.classList.contains('show')?'隱藏答案':'顯示答案';if(a.classList.contains('show')&&window.MathJax)MathJax.typesetPromise([a]);}
+
+let testMode=false;
+function toggleTestMode(){
+  testMode=!testMode; const b=document.getElementById('testBtn');
+  if(testMode){b.textContent='結束測試';b.style.background='#ff6b6b';b.style.color='#fff';
+    document.querySelectorAll('.hideable').forEach(e=>e.style.display='none');
+    document.querySelectorAll('.hidden-answer').forEach(a=>{a.classList.remove('show');const b2=a.previousElementSibling;if(b2&&b2.classList.contains('reveal-btn'))b2.textContent='顯示答案';});
+  }else{b.textContent='開始測試';b.style.background='#fff';b.style.color='#667eea';
+    document.querySelectorAll('.hideable').forEach(e=>e.style.display='');}
+}
+
+// ===== Init =====
+function initApp(){
+  const d=loadData();
+  document.querySelectorAll('.question-card').forEach(c=>{
+    const qid=c.dataset.id;
+    if(d[qid]){c.dataset.mastery=d[qid].mastery||0;renderMastery(qid,d[qid].mastery||0);
+      const t=c.querySelector('.mastery-inline');if(t&&d[qid].reviewCount)t.querySelector('.review-count').textContent=d[qid].reviewCount;}
+  });
+  populateFilters(); updateStats(); applyFilters(); renderDaily();
+  document.getElementById('searchInput').addEventListener('input',applyFilters);
+  ['filterScope','filterType','filterDiff','filterMastery'].forEach(id=>document.getElementById(id).addEventListener('change',applyFilters));
+  // Refresh timer every minute
+  setInterval(()=>{
+    const now=new Date(),tmr=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+    const diff=tmr-now,h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000);
+    document.getElementById('dailyTimer').textContent=`⏳ ${h}h ${m}m 後刷新`;
+  },60000);
+}
+setTimeout(()=>{if(!window.MathJax)initApp();},3000);
+</script>
+</body>
+</html>
