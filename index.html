@@ -442,6 +442,69 @@
   </div>
 </div>
 
+<!-- Q6 -->
+<div class="question-card" data-scope="三角函數" data-chapter="三角函數基本關係與恆等式" data-type="多選題—正切倒數關係求值" data-difficulty="中等偏難" data-source="建中" data-concepts="正切定義,倒數關係,平方展開,正負號判斷,一元二次方程" data-id="6" data-date="2026-08-31">
+  <div class="question-header">
+    <h2>📝 第6題 — 正切倒數和與三角函數值</h2>
+    <div class="tags"><span class="tag tag-scope">三角函數</span><span class="tag tag-type">正切倒數關係</span><span class="tag tag-diff">中等偏難</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>已知 $0° < \theta < 45°$ 且 $\tan\theta + \dfrac{1}{\tan\theta} = \dfrac{5}{2}$，則：<br>
+      (A) $\sin\theta\cos\theta = \dfrac{2}{5}$<br>
+      (B) $\sin\theta + \cos\theta = \dfrac{3}{\sqrt{5}}$<br>
+      (C) $\sin\theta - \cos\theta = \dfrac{1}{\sqrt{5}}$<br>
+      (D) $\sin\theta = \dfrac{1}{\sqrt{5}}$<br>
+      (E) $\sin\theta = \dfrac{2}{\sqrt{5}}$
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：建中 ｜ <span class="tag tag-concept" style="font-size:.95em">正切倒數關係</span> <span class="tag tag-concept" style="font-size:.95em">和差平方展開</span> <span class="tag tag-concept" style="font-size:.95em">角度範圍判斷</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="6"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('6',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('6',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('6',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('6',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('6',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('6')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">(A)(B)(D)</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 核心轉換</div>$\tan\theta + \dfrac{1}{\tan\theta} = \dfrac{\sin\theta}{\cos\theta} + \dfrac{\cos\theta}{\sin\theta} = \dfrac{\sin^2\theta + \cos^2\theta}{\sin\theta\cos\theta} = \dfrac{1}{\sin\theta\cos\theta}$！</div>
+      
+      <div class="step" data-step="1"><div class="step-title">選項 (A) 分析：求 $\sin\theta\cos\theta$</div>
+        由 $\tan\theta + \dfrac{1}{\tan\theta} = \dfrac{1}{\sin\theta\cos\theta} = \dfrac{5}{2}$，取倒數得：
+        <div class="math-line">$$\sin\theta\cos\theta = \frac{2}{5} \quad \implies \text{(A) 正確}$$</div>
+      </div>
+      
+      <div class="step" data-step="2"><div class="step-title">選項 (B) 分析：求 $\sin\theta + \cos\theta$</div>
+        因為 $0° < \theta < 45°$，$\sin\theta > 0$ 且 $\cos\theta > 0$，故 $\sin\theta + \cos\theta > 0$。
+        <div class="math-line">$$(\sin\theta + \cos\theta)^2 = \sin^2\theta + 2\sin\theta\cos\theta + \cos^2\theta = 1 + 2\left(\frac{2}{5}\right) = 1 + \frac{4}{5} = \frac{9}{5}$$</div>
+        開根號取正值：
+        <div class="math-line">$$\sin\theta + \cos\theta = \sqrt{\frac{9}{5}} = \frac{3}{\sqrt{5}} \quad \implies \text{(B) 正確}$$</div>
+      </div>
+
+      <div class="step" data-step="3"><div class="step-title">選項 (C) 分析：求 $\sin\theta - \cos\theta$</div>
+        計算平方值：
+        <div class="math-line">$$(\sin\theta - \cos\theta)^2 = 1 - 2\sin\theta\cos\theta = 1 - \frac{4}{5} = \frac{1}{5}$$</div>
+        <div class="warning-box"><div class="title">⚠️ 關鍵範圍判斷</div>當 $0° < \theta < 45°$ 時，$\sin\theta < \cos\theta$（正弦比餘弦小），所以 $\sin\theta - \cos\theta < 0$！</div>
+        故開根號應取負號：
+        <div class="math-line">$$\sin\theta - \cos\theta = -\frac{1}{\sqrt{5}} \quad \implies \text{(C) 錯誤（選項漏負號）}$$</div>
+      </div>
+
+      <div class="step" data-step="4"><div class="step-title">選項 (D)(E) 分析：求 $\sin\theta$</div>
+        聯立 (B) 與 (C)：
+        <div class="math-line">$$\begin{cases} \sin\theta + \cos\theta = \dfrac{3}{\sqrt{5}} \\ \sin\theta - \cos\theta = -\dfrac{1}{\sqrt{5}} \end{cases}$$</div>
+        兩式相加得 $2\sin\theta = \dfrac{2}{\sqrt{5}} \implies \sin\theta = \dfrac{1}{\sqrt{5}}$（故 $\cos\theta = \dfrac{2}{\sqrt{5}}$）。<br>
+        <div class="math-line">$$\sin\theta = \frac{1}{\sqrt{5}} \quad \implies \text{(D) 正確，(E) 錯誤}$$</div>
+      </div>
+
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式與速解<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ 正切倒數公式</div>$$\tan\theta + \frac{1}{\tan\theta} = \frac{1}{\sin\theta\cos\theta} = \frac{2}{\sin 2\theta}$$
+      $$(\sin\theta \pm \cos\theta)^2 = 1 \pm 2\sin\theta\cos\theta$$</div>
+      <div class="formula-box blue"><div class="title">⚡ 另解：直接解一元二次方程求 $\tan\theta$</div>令 $t = \tan\theta$，原式 $t + \frac{1}{t} = \frac{5}{2} \implies 2t^2 - 5t + 2 = 0 \implies (2t - 1)(t - 2) = 0$。<br>因 $0° < \theta < 45° \implies 0 < \tan\theta < 1$，故 $\tan\theta = \frac{1}{2}$。<br>由直角三角形（對邊 1，鄰邊 2，斜邊 $\sqrt{5}$）可得：$\sin\theta = \frac{1}{\sqrt{5}}, \cos\theta = \frac{2}{\sqrt{5}}$，各選項可瞬間秒殺！</div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>差值開根號漏負號</td><td>$0° < \theta < 45°$ 區間內 $\sin\theta < \cos\theta$，$\sin\theta - \cos\theta$ 必為負值，誤選 (C)</td></tr><tr><td>2</td><td>正切解取錯根</td><td>解 $2t^2-5t+2=0$ 得 $t=1/2$ 或 $2$，沒注意 $0°<\theta<45°$ 需取 $t<1$，誤將 $\sin\theta$ 算成 $2/\sqrt{5}$ 而選 (E)</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 6-1</div>已知 $0° < \theta < 45°$ 且 $\tan\theta + \dfrac{1}{\tan\theta} = \dfrac{10}{3}$，求 $\sin\theta$ 與 $\sin\theta - \cos\theta$ 之值。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$\sin\theta = \dfrac{1}{\sqrt{10}},\; \sin\theta - \cos\theta = -\dfrac{2}{\sqrt{10}}$</div></div>由 $t + \frac{1}{t} = \frac{10}{3} \implies 3t^2 - 10t + 3 = 0 \implies (3t-1)(t-3)=0$。因 $0°<\theta<45°$，$\tan\theta = \frac{1}{3}$。得 $\sin\theta = \frac{1}{\sqrt{10}}, \cos\theta = \frac{3}{\sqrt{10}}$，故 $\sin\theta - \cos\theta = -\frac{2}{\sqrt{10}}$。</div></div>
+      <div class="practice-card"><div class="practice-label">練習 6-2</div>已知 $45° < \theta < 90°$ 且 $\tan\theta + \dfrac{1}{\tan\theta} = \dfrac{25}{12}$，求 $\sin\theta - \cos\theta$ 之值。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$\dfrac{1}{5}$</div></div>因 $45°<\theta<90°$，$\tan\theta > 1$。由 $12t^2-25t+12=0 \implies (3t-4)(4t-3)=0 \implies \tan\theta = \frac{4}{3}$。得 $\sin\theta = \frac{4}{5}, \cos\theta = \frac{3}{5}$。因為 $\theta > 45°$，$\sin\theta > \cos\theta$，故 $\sin\theta - \cos\theta = \frac{1}{5}$。</div></div>
+    </div></div></div>
+  </div>
+</div>
+
 </div><!-- /questionsContainer -->
 
 <!-- REVIEW PLAN -->
