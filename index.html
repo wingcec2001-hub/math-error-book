@@ -613,6 +613,267 @@
   </div>
 </div>
 
+<!-- Q9 -->
+<div class="question-card" data-scope="排列組合" data-chapter="計數原理與走捷徑問題" data-type="計算題—三向捷徑走法與排容" data-difficulty="困難" data-source="南一中綠皮書" data-concepts="走捷徑問題,排容原理,乘法原理,分段路徑" data-id="9" data-date="2026-08-31">
+  <div class="question-header">
+    <h2>📝 第9題 — 網格三方向走捷徑與排容原理</h2>
+    <div class="tags"><span class="tag tag-scope">排列組合</span><span class="tag tag-type">走捷徑與排容</span><span class="tag tag-diff hard">困難</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>如圖，自 $A$ 到 $B$ 沿格子線走，規定只能走「$\uparrow$」、「$\rightarrow$」、「$\downarrow$」三個方向，且路徑不得重複走，則：<br>
+      (1) $A$ 到 $B$ 有 $320$ 種走法；<br>
+      (2) 不經過 $P$ 有 $\underline{\hspace{3em}}$ 種走法；<br>
+      (3) 不經過 $Q$ 有 $\underline{\hspace{3em}}$ 種走法；<br>
+      (4) 不經過 $P$ 且不經過 $Q$ 有 $\underline{\hspace{3em}}$ 種走法；<br>
+      (5) 經過 $P$ 且經過 $Q$ 有 $\underline{\hspace{3em}}$ 種走法。
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：南一中綠皮書 ｜ <span class="tag tag-concept" style="font-size:.95em">直行轉折分析</span> <span class="tag tag-concept" style="font-size:.95em">排容原理</span> <span class="tag tag-concept" style="font-size:.95em">乘法原理</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="9"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('9',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('9',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('9',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('9',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('9',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('9')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">(2) 140　(3) 96　(4) 40　(5) 124</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 核心觀念：三向走法的乘法原理與排容</div>因為只能往「右、上、下」且不可重複，每一垂直行必須且只能通過一次（上下走動選定進出高度後向右跨行）。設全集 $n(U)=320$。</div>
+
+      <div class="step" data-step="1"><div class="step-title">計算「過 $P$」與「過 $Q$」的走法數</div>
+        經由分段乘法原理計算通過特定點的路徑數：<br>
+        - 通過 $P$ 點的走法數 $n(P) = 320 - 140 = 180$<br>
+        - 通過 $Q$ 點的走法數 $n(Q) = 320 - 96 = 224$
+      </div>
+
+      <div class="step" data-step="2"><div class="step-title">計算 (2)(3) 小題：不經過單點</div>
+        - (2) 不過 $P$：$n(P') = n(U) - n(P) = 320 - 180 = \mathbf{140}$<br>
+        - (3) 不過 $Q$：$n(Q') = n(U) - n(Q) = 320 - 224 = \mathbf{96}$
+      </div>
+
+      <div class="step" data-step="3"><div class="step-title">計算 (5) 小題：同時經過 $P$ 且經過 $Q$</div>
+        分段走法 $A \to P \to Q \to B$（或 $A \to Q \to P \to B$）：
+        <div class="math-line">$$n(P \cap Q) = \mathbf{124}$$</div>
+      </div>
+
+      <div class="step" data-step="4"><div class="step-title">計算 (4) 小題：不經 $P$ 且不經 $Q$（排容原理）</div>
+        由笛摩根定律與排容原理：
+        <div class="math-line">$$n(P' \cap Q') = n(U) - n(P \cup Q) = n(U) - [n(P) + n(Q) - n(P \cap Q)]$$</div>
+        <div class="math-line">$$= 320 - [180 + 224 - 124] = 320 - 280 = \mathbf{40}$$</div>
+      </div>
+
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ 排容原理公式</div>$$n(P' \cap Q') = n(U) - n(P) - n(Q) + n(P \cap Q)$$
+      $$n(P \cup Q) = n(P) + n(Q) - n(P \cap Q)$$</div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>排容公式加減符號顛倒</td><td>$n(P' \cap Q')$ 忘記加上交集 $n(P \cap Q)$ 導致多扣</td></tr><tr><td>2</td><td>未按步驟推導</td><td>可先由排容關係互相驗算各小題答案</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 9-1</div>某捷徑問題中，全體走法有 100 種，經 $A$ 點有 45 種，經 $B$ 點有 50 種，同時經 $A, B$ 有 20 種，求不經 $A$ 且不經 $B$ 之走法數。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">25 種</div></div>$n(A' \cap B') = 100 - (45 + 50 - 20) = 100 - 75 = 25$ 種。</div></div>
+      <div class="practice-card"><div class="practice-label">練習 9-2</div>同上題條件，求只經過 $A$ 點但不經過 $B$ 點之走法數。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">25 種</div></div>$n(A \cap B') = n(A) - n(A \cap B) = 45 - 20 = 25$ 種。</div></div>
+    </div></div></div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="question-card" data-scope="排列組合" data-chapter="乘法原理與限制進出問題" data-type="計算題—兩人進出門限制問題" data-difficulty="中等" data-source="南一中綠皮書" data-concepts="乘法原理,分步計數,限制條件分析" data-id="10" data-date="2026-08-31">
+  <div class="question-header">
+    <h2>📝 第10題 — 兩人進出門的限制計數問題</h2>
+    <div class="tags"><span class="tag tag-scope">排列組合</span><span class="tag tag-type">乘法原理</span><span class="tag tag-diff">中等</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>一百貨公司有五個門可供進出；甲、乙由不同門進入；且由不同門出來；且各人進去與出來之門不同；則其方法有 $\underline{\hspace{3em}}$ 種。
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：南一中綠皮書 ｜ <span class="tag tag-concept" style="font-size:.95em">乘法原理</span> <span class="tag tag-concept" style="font-size:.95em">限制條件</span> <span class="tag tag-concept" style="font-size:.95em">分步計數</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="10"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('10',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('10',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('10',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('10',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('10',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('10')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">260 種</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 解題步驟拆解</div>先安排「進門」，再安排「出門」。注意甲、乙進出的交集情況！</div>
+
+      <div class="step" data-step="1"><div class="step-title">步驟一：安排甲、乙「進門」</div>
+        甲由 5 個門選 1 個進入（5 種），乙由剩下的 4 個門選 1 個進入（4 種）：
+        <div class="math-line">$$\text{進門方法數} = 5 \times 4 = 20 \text{ 種}$$</div>
+        設甲進門為 $A$，乙進門為 $B$（門編號為 $A, B, C, D, E$）。
+      </div>
+
+      <div class="step" data-step="2"><div class="step-title">步驟二：安排甲、乙「出門」（分情況討論）</div>
+        出門規則：甲不能從 $A$ 出，乙不能從 $B$ 出，且甲、乙出門不能相同。
+        討論甲出門的選擇：
+        - <strong>情況 1：甲從 $B$ 門出（即乙進的門）</strong><br>
+          此時甲有 1 種選法（選 $B$）。<br>
+          乙不能選 $B$（自己進的），而甲選的是 $B$ 不影響乙選其他門，故乙可從 $A, C, D, E$ 中選 1 個出，有 $4$ 種選法。<br>
+          情況 1 方法數 $= 1 \times 4 = 4$ 種。<br><br>
+        - <strong>情況 2：甲從非 $B$ 的其他門出（即 $C, D, E$）</strong><br>
+          甲有 3 種選法。<br>
+          乙不能選 $B$（自己進的），也不能選甲選的門，故 5 個門扣掉 2 個，乙剩 $3$ 種選法。<br>
+          情況 2 方法數 $= 3 \times 3 = 9$ 種。
+      </div>
+
+      <div class="step" data-step="3"><div class="step-title">步驟三：相乘得出總方法數</div>
+        出門總方法數 $= 4 + 9 = 13$ 種。<br>
+        總方法數：
+        <div class="math-line">$$\text{總方法數} = 20 \times 13 = \boxed{260} \text{ 種}$$</div>
+      </div>
+
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式與模型<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ $n$ 個門兩人進出模型通用公式</div>若有 $n$ 個門，甲乙不同門進、不同門出，且每人不原門出：
+      $$\text{方法數} = P^n_2 \times [(n-1) + (n-2)^2] = n(n-1) \cdot (n^2 - 3n + 3)$$
+      當 $n=5$ 時：$5 \times 4 \times (25 - 15 + 3) = 20 \times 13 = 260$。</div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>出門直接乘 $4 \times 3$</td><td>誤以為甲剩 4 個、乙剩 3 個直接相乘得 12，忽略了「甲若選乙進的門，乙反而有 4 種選擇」的情況</td></tr><tr><td>2</td><td>未分類討論</td><td>甲出門是否佔用乙的原進門會影響乙的可選數，必須分類討論</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 10-1</div>某展覽館有 4 個門供進出，甲、乙兩人由不同門進，不同門出，且各自不從原門出，求方法數。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">84 種</div></div>代入公式：$n=4 \implies 4 \times 3 \times (4^2 - 3\times4 + 3) = 12 \times 7 = 84$ 種。</div></div>
+      <div class="practice-card"><div class="practice-label">練習 10-2</div>某大樓有 6 個門，甲、乙不同門進、不同門出，且不原門出，求方法數。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">630 種</div></div>代入公式：$n=6 \implies 6 \times 5 \times (36 - 18 + 3) = 30 \times 21 = 630$ 種。</div></div>
+    </div></div></div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="question-card" data-scope="數列與級數" data-chapter="等比級數求和與不等式" data-type="計算題—等比級數收斂與項數求值" data-difficulty="中等" data-source="南一中綠皮書" data-concepts="等比級數求和公式,指數不等式,常用對數/2的次方" data-id="11" data-date="2026-08-31">
+  <div class="question-header">
+    <h2>📝 第11題 — 等比級數求和與誤差不等式</h2>
+    <div class="tags"><span class="tag tag-scope">數列與級數</span><span class="tag tag-type">等比級數與不等式</span><span class="tag tag-diff">中等</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>$n$ 為正整數且 $S_n = 1 + \dfrac{1}{2} + \dfrac{1}{4} + \dfrac{1}{8} + \dots + \dfrac{1}{2^{n-1}}$，若 $2 - S_n < 0.001$，求 $n$ 之最小值。
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：南一中綠皮書 ｜ <span class="tag tag-concept" style="font-size:.95em">等比級數和</span> <span class="tag tag-concept" style="font-size:.95em">指數不等式</span> <span class="tag tag-concept" style="font-size:.95em">項數判定</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="11"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('11',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('11',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('11',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('11',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('11',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('11')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">$n = 11$</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 關鍵技巧</div>首項 $a_1=1$，公比 $r=\frac{1}{2}$，共有 $n$ 項。套用等比級數公式求出 $S_n$ 後代入化簡。</div>
+
+      <div class="step" data-step="1"><div class="step-title">計算等比級數和 $S_n$</div>
+        <div class="math-line">$$S_n = \frac{a_1(1 - r^n)}{1 - r} = \frac{1 \cdot \left(1 - \left(\frac{1}{2}\right)^n\right)}{1 - \frac{1}{2}} = 2\left(1 - \frac{1}{2^n}\right) = 2 - \frac{1}{2^{n-1}}$$</div>
+      </div>
+
+      <div class="step" data-step="2"><div class="step-title">化簡條件式 $2 - S_n < 0.001$</div>
+        將 $S_n$ 代入：
+        <div class="math-line">$$2 - S_n = 2 - \left(2 - \frac{1}{2^{n-1}}\right) = \frac{1}{2^{n-1}}$$</div>
+        不等式要求：
+        <div class="math-line">$$\frac{1}{2^{n-1}} < 0.001 = \frac{1}{1000} \iff 2^{n-1} > 1000$$</div>
+      </div>
+
+      <div class="step" data-step="3"><div class="step-title">求最小正整數 $n$</div>
+        已知 2 的次方數：
+        - $2^9 = 512 < 1000$
+        - $2^{10} = 1024 > 1000$
+        故 $n - 1 \ge 10 \implies n \ge 11$。<br>
+        最小正整數 $n = \boxed{11}$。
+      </div>
+
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ 等比級數求和公式</div>$$S_n = \frac{a_1(1 - r^n)}{1 - r}$$
+      常記：$2^{10} = 1024$</div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>項數誤判為 $n-1$ 項</td><td>$1, 1/2, \dots, 1/2^{n-1}$ 共有 $n$ 項，展開化簡後為 $\frac{1}{2^{n-1}}$</td></tr><tr><td>2</td><td>次方判斷少算 1</td><td>$2^{n-1}>1000 \implies n-1\ge 10 \implies n\ge 11$，容易誤寫為 $n=10$</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 11-1</div>設 $S_n = 1 + \frac{1}{3} + \frac{1}{9} + \dots + \frac{1}{3^{n-1}}$，若 $\frac{3}{2} - S_n < 0.005$，求正整數 $n$ 之最小值。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$n = 6$</div></div>$S_n = \frac{3}{2}(1 - (1/3)^n) \implies \frac{3}{2} - S_n = \frac{1}{2 \cdot 3^{n-1}} < \frac{1}{200} \implies 3^{n-1} > 100$。因 $3^4=81, 3^5=243$，故 $n-1 \ge 5 \implies n \ge 6$。</div></div>
+      <div class="practice-card"><div class="practice-label">練習 11-2</div>設 $S_n = 1 + \frac{1}{2} + \dots + \frac{1}{2^{n-1}}$，若 $2 - S_n < 10^{-4}$，求最小正整數 $n$。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$n = 15$</div></div>$\frac{1}{2^{n-1}} < \frac{1}{10000} \implies 2^{n-1} > 10000$。因 $2^{13}=8192, 2^{14}=16384$，故 $n-1 \ge 14 \implies n=15$。</div></div>
+    </div></div></div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="question-card" data-scope="數列與級數" data-chapter="累加級數與前n項關係求通項" data-type="計算題—加權累加求一般項" data-difficulty="中等偏難" data-source="南一中綠皮書" data-concepts="級數和與通項關係,累差法,一階差分" data-id="12" data-date="2026-08-31">
+  <div class="question-header">
+    <h2>📝 第12題 — 加權級數和與通項求值</h2>
+    <div class="tags"><span class="tag tag-scope">數列與級數</span><span class="tag tag-type">前n項和求通項</span><span class="tag tag-diff hard">中等偏難</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>若一數列 $\langle a_n \rangle$ 滿足 $a_1 + 2a_2 + 3a_3 + \dots + n a_n = n^2(n + 1)$，求：<br>
+      (1) $a_n = \ ?$（以 $n$ 表示）<br>
+      (2) $a_{200} = \ ?$
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：南一中綠皮書 ｜ <span class="tag tag-concept" style="font-size:.95em">累加和差分</span> <span class="tag tag-concept" style="font-size:.95em">因式化簡</span> <span class="tag tag-concept" style="font-size:.95em">一般項求解</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="12"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('12',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('12',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('12',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('12',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('12',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('12')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">(1) $a_n = 3n - 1$　(2) $a_{200} = 599$</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 核心技巧：$S_n - S_{n-1}$ 差分法</div>令 $T_n = a_1 + 2a_2 + \dots + n a_n = n^2(n+1)$，則 $T_n - T_{n-1} = n a_n$！</div>
+
+      <div class="step" data-step="1"><div class="step-title">當 $n = 1$ 時</div>
+        <div class="math-line">$$1 \cdot a_1 = 1^2(1 + 1) = 2 \implies a_1 = 2$$</div>
+      </div>
+
+      <div class="step" data-step="2"><div class="step-title">當 $n \ge 2$ 時，利用 $T_n - T_{n-1}$</div>
+        <div class="math-line">$$n a_n = T_n - T_{n-1} = n^2(n + 1) - (n - 1)^2 n$$</div>
+        提出公因式 $n$：
+        <div class="math-line">$$n a_n = n [n(n + 1) - (n - 1)^2]$$</div>
+        兩邊同除以 $n$（因 $n \ge 2 \neq 0$）：
+        <div class="math-line">$$a_n = (n^2 + n) - (n^2 - 2n + 1) = 3n - 1$$</div>
+      </div>
+
+      <div class="step" data-step="3"><div class="step-title">驗證 $n = 1$ 與求 $a_{200}$</div>
+        將 $n = 1$ 代入 $a_n = 3(1) - 1 = 2 = a_1$，完全符合！<br>
+        故對所有正整數 $n$，通項為：
+        <div class="math-line">$$a_n = \boxed{3n - 1}$$</div>
+        代入 $n = 200$：
+        <div class="math-line">$$a_{200} = 3(200) - 1 = 600 - 1 = \boxed{599}$$</div>
+      </div>
+
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ 級數差分得通項</div>若 $T_n = \sum_{k=1}^n b_k$，則 $b_n = T_n - T_{n-1}\;(n \ge 2)$</div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>忘記左邊是 $n a_n$</td><td>差分出來的是第 $n$ 項 $n a_n$，忘記同除以 $n$</td></tr><tr><td>2</td><td>未檢驗 $n=1$</td><td>使用 $T_n - T_{n-1}$ 務必回頭檢驗首項 $a_1$ 是否滿足通式</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 12-1</div>若 $a_1 + 2a_2 + \dots + na_n = n(n+1)(n+2)$，求 $a_n$ 與 $a_{50}$。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$a_n = 3n + 3,\; a_{50} = 153$</div></div>$na_n = n(n+1)(n+2) - (n-1)n(n+1) = n(n+1)[(n+2)-(n-1)] = 3n(n+1) \implies a_n = 3n+3$。$a_{50} = 153$。</div></div>
+      <div class="practice-card"><div class="practice-label">練習 12-2</div>若 $a_1 + 2a_2 + \dots + na_n = n^3$，求 $a_n$。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$a_n = 3n - 3 + \dfrac{1}{n}\;(n \ge 2)$，$a_1 = 1$</div></div>$na_n = n^3 - (n-1)^3 = 3n^2 - 3n + 1 \implies a_n = 3n - 3 + \frac{1}{n}$。</div></div>
+    </div></div></div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="question-card" data-scope="數列與級數" data-chapter="等差數列中項性質與前n項和之比" data-type="計算題—等差數列項比與和比互換" data-difficulty="中等" data-source="南一中綠皮書" data-concepts="等差中項,前n項和公式,奇數項和與中項關係" data-id="13" data-date="2026-08-31">
+  <div class="question-header">
+    <h2>📝 第13題 — 等差數列「項之比」與「和之比」轉換</h2>
+    <div class="tags"><span class="tag tag-scope">數列與級數</span><span class="tag tag-type">等差項比與和比</span><span class="tag tag-diff">中等</span></div>
+  </div>
+  <div class="question-body">
+    <div class="problem-box"><div class="label">📋 題目</div>
+      (1) 二等差數列，其第 $n$ 項的比為 $(2n + 3) : (3n + 2)$，則此二數列之前 $9$ 項和之比為何？<br>
+      (2) 二等差數列，其前 $n$ 項和的比為 $(2n + 1) : (n + 3)$，則此二數列之第 $10$ 項之比為何？
+      <div style="font-size:.78em;color:var(--gray-500);margin-top:5px;">來源：南一中綠皮書 ｜ <span class="tag tag-concept" style="font-size:.95em">等差中項</span> <span class="tag tag-concept" style="font-size:.95em">前n項和性質</span> <span class="tag tag-concept" style="font-size:.95em">項比與和比轉換</span></div>
+    </div>
+    <div class="mastery-inline" data-qid="13"><span class="label">掌握：</span><button class="star-btn" data-level="1" onclick="setMastery('13',1)">⭐</button><button class="star-btn" data-level="2" onclick="setMastery('13',2)">⭐</button><button class="star-btn" data-level="3" onclick="setMastery('13',3)">⭐</button><button class="star-btn" data-level="4" onclick="setMastery('13',4)">⭐</button><button class="star-btn" data-level="5" onclick="setMastery('13',5)">⭐</button><span class="review-info">已複習 <b class="review-count">0</b> 次 <button class="review-inc-btn" onclick="incReview('13')">+1</button></span></div>
+    <div class="answer-box hideable"><div class="label">✅ 正確答案</div><div class="value">(1) $13 : 17$　(2) $39 : 22$</div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">📖 詳細解析<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="tip-box"><div class="title">💡 關鍵絕招：等差中項 $S_{2k-1} = (2k-1) \cdot a_k$</div>等差數列前 $2k-1$ 項之和等於「項數 $\times$ 第 $k$ 項（等差中項）」！<br>
+      因此：<strong>前 $2k-1$ 項和的比 $=$ 第 $k$ 項之比</strong>！</div>
+
+      <div class="step" data-step="1"><div class="step-title">(1) 已知「第 $n$ 項比」，求「前 9 項和之比」</div>
+        前 $9$ 項和之比等於第 $\frac{9+1}{2} = 5$ 項（即 $a_5$）之比：
+        <div class="math-line">$$\frac{S_9}{S'_9} = \frac{9a_5}{9a'_5} = \frac{a_5}{a'_5}$$</div>
+        將 $n = 5$ 代入第 $n$ 項比 $(2n+3) : (3n+2)$：
+        <div class="math-line">$$\frac{S_9}{S'_9} = \frac{2(5) + 3}{3(5) + 2} = \frac{10 + 3}{15 + 2} = \boxed{\frac{13}{17}} \quad (13 : 17)$$</div>
+      </div>
+
+      <div class="step" data-step="2"><div class="step-title">(2) 已知「前 $n$ 項和比」，求「第 10 項之比」</div>
+        第 $10$ 項（$a_{10}$）是前 $2(10) - 1 = 19$ 項的等差中項：
+        <div class="math-line">$$\frac{a_{10}}{a'_{10}} = \frac{19a_{10}}{19a'_{10}} = \frac{S_{19}}{S'_{19}}$$</div>
+        將 $n = 19$ 代入前 $n$ 項和比 $(2n+1) : (n+3)$：
+        <div class="math-line">$$\frac{a_{10}}{a'_{10}} = \frac{2(19) + 1}{19 + 3} = \frac{38 + 1}{22} = \boxed{\frac{39}{22}} \quad (39 : 22)$$</div>
+      </div>
+
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">🔑 核心公式速查<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="formula-box"><div class="title">⭐ 等差項比與和比互換法則</div>
+      1. 給 $a_n : a'_n$，求 $S_m : S'_m$ $\implies$ <strong>代入 $n = \dfrac{m+1}{2}$</strong><br>
+      2. 給 $S_n : S'_n$，求 $a_k : a'_k$ $\implies$ <strong>代入 $n = 2k - 1$</strong></div>
+    </div></div></div>
+    <div class="collapsible hideable"><div class="collapsible-header" onclick="toggleC(this)">⚠️ 常見錯誤<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <table class="error-table"><tr><th>#</th><th>錯誤</th><th>說明</th></tr><tr><td>1</td><td>(2)小題直接代 $n=10$</td><td>前 $n$ 項和公式是二次式，求第 10 項比不可直接代 $n=10$，應代中項項數 $n=2(10)-1=19$</td></tr><tr><td>2</td><td>互換關係記反</td><td>牢記「求和代中項，求項代兩倍減一」</td></tr></table>
+    </div></div></div>
+    <div class="collapsible"><div class="collapsible-header" onclick="toggleC(this)">📚 類似練習題<span class="icon">▼</span></div><div class="collapsible-content"><div class="collapsible-inner">
+      <div class="practice-card"><div class="practice-label">練習 13-1</div>兩等差數列第 $n$ 項比為 $(3n-1) : (2n+5)$，求前 $11$ 項和之比。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$17 : 17 = 1 : 1$</div></div>前 11 項中項為第 6 項，代 $n=6 \implies (18-1):(12+5) = 17:17 = 1:1$。</div></div>
+      <div class="practice-card"><div class="practice-label">練習 13-2</div>兩等差數列前 $n$ 項和比為 $(7n+1) : (4n+27)$，求第 $11$ 項之比。<br><button class="reveal-btn" onclick="toggleA(this)">顯示答案</button><div class="hidden-answer"><div class="answer-box"><div class="label">答案</div><div class="value">$4 : 3$</div></div>第 11 項對應前 $2(11)-1 = 21$ 項和，代 $n=21 \implies \frac{7(21)+1}{4(21)+27} = \frac{148}{111} = \frac{4}{3}$。</div></div>
+    </div></div></div>
+  </div>
+</div>
+
 </div><!-- /questionsContainer -->
 
 <!-- REVIEW PLAN -->
